@@ -1,6 +1,6 @@
 package com.ufsc.access.control.parking.model;
 
-import com.ufsc.access.control.parking.model.dto.ParkingSpotDTO;
+import com.ufsc.access.control.parking.model.dto.ParkingDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,16 +18,16 @@ public class Parking {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String parkingName;
+    private String name;
     private Integer maximumCapacity;
     private Integer currentCapacity;
 
-    public Parking(ParkingSpotDTO parkingSpotDTO) {
-        updateFromDTO(parkingSpotDTO);
+    public Parking(ParkingDTO parkingDTO) {
+        updateFromDTO(parkingDTO);
     }
 
-    public void updateFromDTO(ParkingSpotDTO parkingSpotDTO) {
-        parkingName = parkingSpotDTO.parkingName();
+    public void updateFromDTO(ParkingDTO parkingSpotDTO) {
+        name = parkingSpotDTO.name();
         maximumCapacity = parkingSpotDTO.maximumCapacity();
         currentCapacity = parkingSpotDTO.currentCapacity();
     }

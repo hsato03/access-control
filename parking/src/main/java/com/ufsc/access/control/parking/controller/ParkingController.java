@@ -1,8 +1,8 @@
 package com.ufsc.access.control.parking.controller;
 
 import com.ufsc.access.control.parking.model.Parking;
-import com.ufsc.access.control.parking.model.dto.ParkingSpotDTO;
-import com.ufsc.access.control.parking.service.ParkingSpotService;
+import com.ufsc.access.control.parking.model.dto.ParkingDTO;
+import com.ufsc.access.control.parking.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +16,14 @@ import java.net.URI;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/parking-spot")
-public class ParkingSpotController {
+@RequestMapping("/parking")
+public class ParkingController {
 
     @Autowired
-    ParkingSpotService service;
+    ParkingService service;
 
     @GetMapping
-    public Page<Parking> findAll(@PageableDefault(size = 20, sort = {"parkingName"}) Pageable page) {
+    public Page<Parking> findAll(@PageableDefault(size = 20, sort = {"name"}) Pageable page) {
         return service.findAll(page);
     }
 
@@ -33,14 +33,14 @@ public class ParkingSpotController {
     }
 
     @PostMapping
-    public ResponseEntity<Parking> save(@RequestBody ParkingSpotDTO parkingSpot, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Parking> save(@RequestBody ParkingDTO parkingSpot, UriComponentsBuilder uriBuilder) {
         Parking savedParkingSpot = service.save(parkingSpot);
-        URI uri = uriBuilder.path("/parking-spot/{id}").buildAndExpand(savedParkingSpot.getId()).toUri();
+        URI uri = uriBuilder.path("/parking/{id}").buildAndExpand(savedParkingSpot.getId()).toUri();
         return ResponseEntity.created(uri).body(savedParkingSpot);
     }
 
     @PutMapping("/{id}")
-    public Parking update(@PathVariable UUID id, @RequestBody ParkingSpotDTO parkingSpot) {
+    public Parking update(@PathVariable UUID id, @RequestBody ParkingDTO parkingSpot) {
         return service.update(id, parkingSpot);
     }
 

@@ -1,0 +1,49 @@
+http {
+  upstream app-access {
+    server app-access:8080;
+  }
+
+  upstream app-credit {
+    server app-credit:8081;
+  }
+
+  upstream app-parking {
+    server app-parking:8082;
+  }
+
+  upstream app-user {
+    server app-user:8083;
+  }
+
+  server {
+    listen 80;
+
+    location /access/ {
+      proxy_pass http://app-access/access;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /credit/ {
+      proxy_pass http://app-credit/credit;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /parking/ {
+      proxy_pass http://app-parking/parking;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /user/ {
+      proxy_pass http://app-user/user;
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+  }
+}

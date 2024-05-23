@@ -1,8 +1,8 @@
 package com.ufsc.access.control.parking.service;
 
 import com.ufsc.access.control.parking.model.Parking;
-import com.ufsc.access.control.parking.model.dto.ParkingSpotDTO;
-import com.ufsc.access.control.parking.repository.ParkingSpotRepository;
+import com.ufsc.access.control.parking.model.dto.ParkingDTO;
+import com.ufsc.access.control.parking.repository.ParkingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service
-public class ParkingSpotService {
+public class ParkingService {
 
     @Autowired
-    ParkingSpotRepository repository;
+    ParkingRepository repository;
 
     @Transactional(readOnly = true)
     public Page<Parking> findAll(Pageable page) {
@@ -30,15 +30,15 @@ public class ParkingSpotService {
     }
 
     @Transactional
-    public Parking save(ParkingSpotDTO parkingSpot) {
-        Parking parkingSpotToSave = new Parking(parkingSpot);
+    public Parking save(ParkingDTO parking) {
+        Parking parkingSpotToSave = new Parking(parking);
         return repository.save(parkingSpotToSave);
     }
 
     @Transactional
-    public Parking update(UUID id, ParkingSpotDTO parkingSpot) {
+    public Parking update(UUID id, ParkingDTO parking) {
         Parking parkingSpotToUpdate = findById(id);
-        parkingSpotToUpdate.updateFromDTO(parkingSpot);
+        parkingSpotToUpdate.updateFromDTO(parking);
         return repository.save(parkingSpotToUpdate);
     }
 
