@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ufsc.controle.acesso</groupId>
-	<artifactId>usuario</artifactId>
+	<artifactId>user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>usuario</name>
 	<description>Demo project for Spring Boot</description>

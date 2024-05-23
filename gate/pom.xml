@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ufsc.controle.acesso</groupId>
-	<artifactId>credito</artifactId>
+	<artifactId>gate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>credito</name>
+	<name>cancela</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
