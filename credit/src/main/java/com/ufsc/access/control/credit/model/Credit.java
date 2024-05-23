@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.credito.model;
+package com.ufsc.access.control.credit.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "tb_credit")
 @Getter
 @Setter
 @NoArgsConstructor

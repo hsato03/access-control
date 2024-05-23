@@ -1,8 +1,8 @@
-package com.ufsc.controle.acesso.credito.service;
+package com.ufsc.access.control.credit.service;
 
-import com.ufsc.controle.acesso.credito.model.Credit;
-import com.ufsc.controle.acesso.credito.model.CreditDTO;
-import com.ufsc.controle.acesso.credito.repository.CreditRepository;
+import com.ufsc.access.control.credit.model.Credit;
+import com.ufsc.access.control.credit.model.CreditDTO;
+import com.ufsc.access.control.credit.repository.CreditRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.credito;
+package com.ufsc.access.control.credit;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

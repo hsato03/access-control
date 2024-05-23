@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.acesso;
+package com.ufsc.access.control.access;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

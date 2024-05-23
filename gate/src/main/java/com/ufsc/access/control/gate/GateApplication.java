@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.cancela;
+package com.ufsc.access.control.gate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.credito;
+package com.ufsc.access.control.credit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

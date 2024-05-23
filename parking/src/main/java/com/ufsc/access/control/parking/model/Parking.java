@@ -1,6 +1,6 @@
-package com.ufsc.controle.acesso.vaga.model;
+package com.ufsc.access.control.parking.model;
 
-import com.ufsc.controle.acesso.vaga.model.dto.ParkingSpotDTO;
+import com.ufsc.access.control.parking.model.dto.ParkingSpotDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "tb_parking")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ParkingSpot {
+public class Parking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,7 +22,7 @@ public class ParkingSpot {
     private Integer maximumCapacity;
     private Integer currentCapacity;
 
-    public ParkingSpot(ParkingSpotDTO parkingSpotDTO) {
+    public Parking(ParkingSpotDTO parkingSpotDTO) {
         updateFromDTO(parkingSpotDTO);
     }
 

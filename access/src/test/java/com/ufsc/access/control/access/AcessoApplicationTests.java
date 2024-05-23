@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.acesso;
+package com.ufsc.access.control.access;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

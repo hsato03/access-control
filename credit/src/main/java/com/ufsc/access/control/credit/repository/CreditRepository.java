@@ -1,6 +1,6 @@
-package com.ufsc.controle.acesso.credito.repository;
+package com.ufsc.access.control.credit.repository;
 
-import com.ufsc.controle.acesso.credito.model.Credit;
+import com.ufsc.access.control.credit.model.Credit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

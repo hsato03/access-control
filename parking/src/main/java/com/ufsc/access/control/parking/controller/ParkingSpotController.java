@@ -1,8 +1,8 @@
-package com.ufsc.controle.acesso.vaga.controller;
+package com.ufsc.access.control.parking.controller;
 
-import com.ufsc.controle.acesso.vaga.model.ParkingSpot;
-import com.ufsc.controle.acesso.vaga.model.dto.ParkingSpotDTO;
-import com.ufsc.controle.acesso.vaga.service.ParkingSpotService;
+import com.ufsc.access.control.parking.model.Parking;
+import com.ufsc.access.control.parking.model.dto.ParkingSpotDTO;
+import com.ufsc.access.control.parking.service.ParkingSpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,24 +23,24 @@ public class ParkingSpotController {
     ParkingSpotService service;
 
     @GetMapping
-    public Page<ParkingSpot> findAll(@PageableDefault(size = 20, sort = {"parkingName"}) Pageable page) {
+    public Page<Parking> findAll(@PageableDefault(size = 20, sort = {"parkingName"}) Pageable page) {
         return service.findAll(page);
     }
 
     @GetMapping("/{id}")
-    public ParkingSpot findById(@PathVariable UUID id) {
+    public Parking findById(@PathVariable UUID id) {
         return service.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<ParkingSpot> save(@RequestBody ParkingSpotDTO parkingSpot, UriComponentsBuilder uriBuilder) {
-        ParkingSpot savedParkingSpot = service.save(parkingSpot);
+    public ResponseEntity<Parking> save(@RequestBody ParkingSpotDTO parkingSpot, UriComponentsBuilder uriBuilder) {
+        Parking savedParkingSpot = service.save(parkingSpot);
         URI uri = uriBuilder.path("/parking-spot/{id}").buildAndExpand(savedParkingSpot.getId()).toUri();
         return ResponseEntity.created(uri).body(savedParkingSpot);
     }
 
     @PutMapping("/{id}")
-    public ParkingSpot update(@PathVariable UUID id, @RequestBody ParkingSpotDTO parkingSpot) {
+    public Parking update(@PathVariable UUID id, @RequestBody ParkingSpotDTO parkingSpot) {
         return service.update(id, parkingSpot);
     }
 

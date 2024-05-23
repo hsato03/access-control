@@ -1,4 +1,4 @@
-package com.ufsc.controle.acesso.credito.model;
+package com.ufsc.access.control.credit.model;
 
 public record CreditDTO(Integer value) {
 }

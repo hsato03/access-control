@@ -1,6 +1,6 @@
-package com.ufsc.controle.acesso.acesso.repository;
+package com.ufsc.access.control.access.repository;
 
-import com.ufsc.controle.acesso.acesso.model.Access;
+import com.ufsc.access.control.access.model.Access;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

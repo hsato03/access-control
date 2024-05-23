@@ -1,8 +1,8 @@
-package com.ufsc.controle.acesso.credito.controller;
+package com.ufsc.access.control.credit.controller;
 
-import com.ufsc.controle.acesso.credito.model.Credit;
-import com.ufsc.controle.acesso.credito.model.CreditDTO;
-import com.ufsc.controle.acesso.credito.service.CreditService;
+import com.ufsc.access.control.credit.model.CreditDTO;
+import com.ufsc.access.control.credit.service.CreditService;
+import com.ufsc.access.control.credit.model.Credit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
