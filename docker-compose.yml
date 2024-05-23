@@ -1,6 +1,51 @@
 services:
+  app-access:
+    build: ./access
+    container_name: app-access
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-access:5432/access
+    depends_on:
+      - db-access
+    networks:
+      - my-network
+  app-credit:
+    build: ./credit
+    container_name: app-credit
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-credit:5432/credit
+    depends_on:
+      - db-credit
+    networks:
+      - my-network
+  app-parking:
+    build: ./parking
+    container_name: app-parking
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-parking:5432/parking
+    depends_on:
+      - db-parking
+    networks:
+      - my-network
+  app-user:
+    build: ./user
+    container_name: app-user
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-user:5432/user
+    depends_on:
+      - db-user
+    networks:
+      - my-network
   db-access:
     image: postgres:16
+    container_name: db-access
     volumes:
       - ./data/access_postgres_data:/var/lib/postgresql/data
     environment:
@@ -15,8 +60,11 @@ services:
       retries: 5
     ports:
       - "5432:5432"
+    networks:
+      - my-network
   db-credit:
     image: postgres:16
+    container_name: db-credit
     volumes:
       - ./data/credit_postgres_data:/var/lib/postgresql/data/
     environment:
@@ -31,8 +79,11 @@ services:
       retries: 5
     ports:
       - "5433:5432"
+    networks:
+      - my-network
   db-parking:
     image: postgres:16
+    container_name: db-parking
     volumes:
       - ./data/parking_postgres_data:/var/lib/postgresql/data/
     environment:
@@ -47,8 +98,11 @@ services:
       retries: 5
     ports:
       - "5434:5432"
+    networks:
+      - my-network
   db-user:
     image: postgres:16
+    container_name: db-user
     volumes:
       - ./data/user_postgres_data:/var/lib/postgresql/data/
     environment:
@@ -63,3 +117,8 @@ services:
       retries: 5
     ports:
       - "5435:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
