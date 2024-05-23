@@ -1,13 +1,13 @@
-package com.ufsc.access.control.user;
+package com.ufsc.controle.acesso.credito;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UsuarioApplication {
+public class CreditApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UsuarioApplication.class, args);
+		SpringApplication.run(CreditApplication.class, args);
 	}
 
 }
