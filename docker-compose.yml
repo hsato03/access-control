@@ -1,17 +1,65 @@
 services:
-  db:
+  db-access:
     image: postgres:16
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./postgres_data:/var/lib/postgresql/data/
+      - ./data/access_postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      POSTGRES_DB: access
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: "on-failure"
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready -U user -d password'"]
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d access'"]
       interval: 10s
       timeout: 3s
       retries: 5
     ports:
       - "5432:5432"
+  db-credit:
+    image: postgres:16
+    volumes:
+      - ./data/credit_postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: credit
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: "on-failure"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d credit'"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "5433:5432"
+  db-parking:
+    image: postgres:16
+    volumes:
+      - ./data/parking_postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: parking
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: "on-failure"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d parking'"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "5434:5432"
+  db-user:
+    image: postgres:16
+    volumes:
+      - ./data/user_postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: "on-failure"
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d user'"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "5435:5432"
