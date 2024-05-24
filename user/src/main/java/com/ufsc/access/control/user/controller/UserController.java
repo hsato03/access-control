@@ -24,7 +24,7 @@ public class UserController {
     UserService service;
 
     @GetMapping
-    public Page<User> findAll(@PageableDefault(size = 10, sort = {"name"}) Pageable page) {
+    public Page<User> findAll(@PageableDefault(size = 20, sort = {"name"}) Pageable page) {
         return service.findAll(page);
     }
 

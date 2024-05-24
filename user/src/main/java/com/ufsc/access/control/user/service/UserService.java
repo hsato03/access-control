@@ -1,15 +1,26 @@
 package com.ufsc.access.control.user.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufsc.access.control.user.model.User;
+import com.ufsc.access.control.user.model.dto.CreditDTO;
 import com.ufsc.access.control.user.model.dto.UserDTO;
+import com.ufsc.access.control.user.model.enums.Category;
 import com.ufsc.access.control.user.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.security.InvalidParameterException;
 import java.util.UUID;
 
 @Service
@@ -17,11 +28,20 @@ public class UserService {
 
     @Autowired
     UsuarioRepository repository;
+    @Value("${credit.url.endpoint}")
+    String creditEndpoint;
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
     public User save(UserDTO user) {
         User newUser = new User(user);
-        return repository.save(newUser);
+        newUser = repository.save(newUser);
+
+        if (Category.STUDENT.equals(newUser.getCategory()) || Category.VISITOR.equals(newUser.getCategory())) {
+            createUserCredit(newUser);
+        }
+
+        return newUser;
     }
 
     @Transactional(readOnly = true)
@@ -47,5 +67,23 @@ public class UserService {
     public void delete(UUID id) {
         User userToDelete = findById(id);
         repository.delete(userToDelete);
+    }
+
+    public void createUserCredit(User user) {
+        try {
+            CreditDTO credit = new CreditDTO(user.getId(), 0);
+            String creditJson = objectMapper.writeValueAsString(credit);
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(creditEndpoint))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(creditJson))
+                    .build();
+
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
+        }
     }
 }
