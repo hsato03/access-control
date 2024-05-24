@@ -28,8 +28,10 @@ public class UserService {
 
     @Autowired
     UsuarioRepository repository;
+
     @Value("${credit.url.endpoint}")
     String creditEndpoint;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
@@ -37,7 +39,7 @@ public class UserService {
         User newUser = new User(user);
         newUser = repository.save(newUser);
 
-        if (Category.STUDENT.equals(newUser.getCategory()) || Category.VISITOR.equals(newUser.getCategory())) {
+        if (userHasToPay(newUser.getCategory())) {
             createUserCredit(newUser);
         }
 
@@ -85,5 +87,9 @@ public class UserService {
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
         }
+    }
+
+    public boolean userHasToPay(Category category) {
+        return Category.STUDENT.equals(category) || Category.VISITOR.equals(category);
     }
 }

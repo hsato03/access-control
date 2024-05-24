@@ -1,6 +1,6 @@
 package com.ufsc.access.control.access.model;
 
-import com.ufsc.access.control.access.model.enums.Action;
+import com.ufsc.access.control.access.model.dto.AccessDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,17 @@ public class Access {
     private UUID userId;
     private UUID parkingId;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime date;
-    @Enumerated(EnumType.STRING)
-    private Action action;
+    private LocalDateTime entryDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime exitDate;
+
+    public Access(AccessDTO access) {
+        userId = access.userId();
+        parkingId = access.parkingId();
+    }
+
+    @PrePersist
+    public void onPersist() {
+        entryDate = LocalDateTime.now();
+    }
 }

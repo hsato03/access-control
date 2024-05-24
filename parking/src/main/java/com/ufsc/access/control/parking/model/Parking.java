@@ -19,16 +19,19 @@ public class Parking {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
-    private Integer maximumCapacity;
-    private Integer currentCapacity;
+    private Integer capacity;
 
     public Parking(ParkingDTO parkingDTO) {
         updateFromDTO(parkingDTO);
     }
 
     public void updateFromDTO(ParkingDTO parkingSpotDTO) {
-        name = parkingSpotDTO.name();
-        maximumCapacity = parkingSpotDTO.maximumCapacity();
-        currentCapacity = parkingSpotDTO.currentCapacity();
+        if (parkingSpotDTO.name() != null) {
+            name = parkingSpotDTO.name();
+        }
+
+        if (parkingSpotDTO.capacity() != null) {
+            capacity = parkingSpotDTO.capacity();
+        }
     }
 }
