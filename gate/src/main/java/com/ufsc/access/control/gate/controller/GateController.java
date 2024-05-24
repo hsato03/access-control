@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/gate")
 public class GateController {
 
-    @GetMapping
+    @GetMapping("/open")
     public void open() {
         System.out.println("Gate opened");
     }

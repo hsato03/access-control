@@ -39,9 +39,7 @@ public class UserService {
         User newUser = new User(user);
         newUser = repository.save(newUser);
 
-        if (userHasToPay(newUser.getCategory())) {
-            createUserCredit(newUser);
-        }
+        createUserCredit(newUser);
 
         return newUser;
     }
@@ -87,9 +85,5 @@ public class UserService {
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
         }
-    }
-
-    public boolean userHasToPay(Category category) {
-        return Category.STUDENT.equals(category) || Category.VISITOR.equals(category);
     }
 }

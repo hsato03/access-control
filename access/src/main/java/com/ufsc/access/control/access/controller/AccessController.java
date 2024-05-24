@@ -28,8 +28,8 @@ public class AccessController {
         return ResponseEntity.created(uri).body(accessEntry);
     }
 
-    @PostMapping("/out")
-    public void out() {
+    @PostMapping("/exit")
+    public void exit() {
 
     }
 }
