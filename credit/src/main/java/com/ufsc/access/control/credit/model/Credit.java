@@ -1,7 +1,6 @@
 package com.ufsc.access.control.credit.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ import java.util.UUID;
 public class Credit {
 
     @Id
-    @GeneratedValue
     private UUID id;
     private Integer value;
 }

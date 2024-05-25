@@ -1,6 +1,7 @@
 package com.ufsc.access.control.user.controller;
 
 import com.ufsc.access.control.user.model.dto.UserDTO;
+import com.ufsc.access.control.user.model.dto.UserHasToPayResponse;
 import com.ufsc.access.control.user.service.UserService;
 import com.ufsc.access.control.user.model.User;
 
@@ -49,5 +50,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID id) {
         service.delete(id);
+    }
+
+    @GetMapping("/{id}/hasToPay")
+    public UserHasToPayResponse userHasToPay(@PathVariable UUID id) {
+        return service.hasToPay(id);
     }
 }

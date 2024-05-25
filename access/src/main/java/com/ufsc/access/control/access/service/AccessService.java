@@ -7,11 +7,13 @@ import com.ufsc.access.control.access.utils.NetUtils;
 import com.ufsc.access.control.access.model.dto.AccessDTO;
 import com.ufsc.access.control.access.model.dto.AccessEntryResponse;
 import com.ufsc.access.control.access.repository.AccessRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,7 +32,17 @@ public class AccessService {
     @Value("${gate.url.endpoint}")
     String gateEndpoint;
 
+    @Value("${user.url.endpoint}")
+    String userEndpoint;
+
     public AccessEntryResponse entry(AccessDTO access) {
+        boolean accessEntryAlreadyExists = repository.findByUserIdAndParkingIdAndExitDateNull(
+                access.userId(), access.parkingId()).isPresent();
+
+        if (accessEntryAlreadyExists) {
+            throw new RuntimeException(String.format("User %s is already using a parking spot in parking %s.", access.userId(), access.parkingId()));
+        }
+
         decrementParkingCapacity(access.parkingId());
 
         Access accessToSave = new Access(access);
@@ -43,14 +55,24 @@ public class AccessService {
     }
 
     public Access exit(AccessDTO access) {
-        decrementUserCredits(access.userId());
+        UUID userId = access.userId();
+        UUID parkingId = access.parkingId();
+        Access accessExit = repository.findByUserIdAndParkingIdAndExitDateNull(userId, parkingId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Could not find a entry register that matches" +
+                        " %s user UUID and %s parking UUID.", userId, parkingId)));
+
+        if (userHasToPay(userId)){
+            decrementUserCredits(access.userId());
+        }
+
         incrementParkingCapacity(access.parkingId());
 
-        // TODO: Buscar Access por userId e parkingId e colocar data de saida
+        accessExit.setExitDate(LocalDateTime.now());
+        accessExit = repository.save(accessExit);
 
         openGate();
 
-        return new access;
+        return accessExit;
     }
 
     public void openGate() {
@@ -111,5 +133,18 @@ public class AccessService {
 
         Map<String, Object> responseBody = NetUtils.deserializeJson(response.body());
         return (Integer) responseBody.get("capacity");
+    }
+
+    public boolean userHasToPay(UUID userId) {
+        String userHasToPayEndpoint = String.format("%s/%s/hasToPay", userEndpoint, userId);
+        HttpResponse<String> response = NetUtils.createGetRequest(userHasToPayEndpoint);
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException(String.format("Could not find a user with UUID %s.", userId));
+        }
+
+        Map<String, Object> responseBody = NetUtils.deserializeJson(response.body());
+
+        return (boolean) responseBody.get("result");
     }
 }

@@ -1,5 +1,6 @@
 package com.ufsc.access.control.access.controller;
 
+import com.ufsc.access.control.access.model.Access;
 import com.ufsc.access.control.access.model.dto.AccessDTO;
 import com.ufsc.access.control.access.model.dto.AccessEntryResponse;
 import com.ufsc.access.control.access.service.AccessService;
@@ -29,7 +30,7 @@ public class AccessController {
     }
 
     @PostMapping("/exit")
-    public void exit() {
-
+    public Access exit(@RequestBody AccessDTO access) {
+        return service.exit(access);
     }
 }

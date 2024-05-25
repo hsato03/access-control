@@ -25,8 +25,18 @@ public class User {
     private Category category;
 
     public User(UserDTO userDTO) {
-        cpf = userDTO.cpf();
-        name = userDTO.name();
-        category = userDTO.category();
+        updateFromDto(userDTO);
+    }
+
+    public void updateFromDto(UserDTO userDTO) {
+        if (userDTO.cpf() != null) {
+            cpf = userDTO.cpf();
+        }
+        if (userDTO.name() != null) {
+            name = userDTO.name();
+        }
+        if (userDTO.category() != null) {
+            category = userDTO.category();
+        }
     }
 }

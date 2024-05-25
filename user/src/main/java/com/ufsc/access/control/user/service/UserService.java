@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufsc.access.control.user.model.User;
 import com.ufsc.access.control.user.model.dto.CreditDTO;
 import com.ufsc.access.control.user.model.dto.UserDTO;
+import com.ufsc.access.control.user.model.dto.UserHasToPayResponse;
 import com.ufsc.access.control.user.model.enums.Category;
 import com.ufsc.access.control.user.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -58,9 +59,7 @@ public class UserService {
     @Transactional
     public User update(UserDTO user, UUID id) {
         User userToUpdate = findById(id);
-        userToUpdate.setName(user.name());
-        userToUpdate.setCpf(user.cpf());
-        userToUpdate.setCategory(user.category());
+        userToUpdate.updateFromDto(user);
         return repository.save(userToUpdate);
     }
 
@@ -85,5 +84,11 @@ public class UserService {
         } catch (URISyntaxException | IOException | InterruptedException e) {
             throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
         }
+    }
+
+    public UserHasToPayResponse hasToPay(UUID id) {
+        User user = findById(id);
+        boolean result = Category.STUDENT.equals(user.getCategory()) || Category.VISITOR.equals(user.getCategory());
+        return new UserHasToPayResponse(result);
     }
 }
