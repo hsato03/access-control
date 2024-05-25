@@ -29,7 +29,7 @@ public class NetUtils {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
+            throw new InvalidParameterException(String.format("Unable to complete the request due to %s.", e));
         }
     }
 
@@ -43,7 +43,7 @@ public class NetUtils {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
+            throw new InvalidParameterException(String.format("Unable to complete the request due to %s.", e));
         }
     }
 
@@ -60,7 +60,7 @@ public class NetUtils {
 
             return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
+            throw new InvalidParameterException(String.format("Unable to complete the request due to %s.", e));
         }
     }
 
@@ -68,7 +68,7 @@ public class NetUtils {
         try {
             return objectMapper.readValue(json, Map.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(String.format("Could not deserialize due to %s.", e));
+            throw new RuntimeException(String.format("Could not deserialize JSON due to %s.", e));
         }
 
     }

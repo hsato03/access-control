@@ -37,6 +37,11 @@ public class UserService {
 
     @Transactional
     public User save(UserDTO user) {
+        boolean cpfAlreadyExists = repository.findByCpf(user.cpf()).isPresent();
+        if (cpfAlreadyExists) {
+            throw new RuntimeException(String.format("Unable to create user.", user.cpf()));
+        }
+
         User newUser = new User(user);
         newUser = repository.save(newUser);
 
@@ -66,6 +71,7 @@ public class UserService {
     public void delete(UUID id) {
         User userToDelete = findById(id);
         repository.delete(userToDelete);
+        deleteUserCredit(userToDelete);
     }
 
     public void createUserCredit(User user) {
@@ -85,6 +91,23 @@ public class UserService {
             throw new InvalidParameterException(String.format("Unable to create user credit due to %s.", e));
         }
     }
+
+    public void deleteUserCredit(User user) {
+        try {
+            String creditDeleteEndpoint = String.format("%s/%s", creditEndpoint, user.getId());
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(creditDeleteEndpoint))
+                    .DELETE()
+                    .build();
+
+            client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException | InterruptedException e) {
+            throw new InvalidParameterException(String.format("Unable to complete the request due to %s.", e));
+        }
+    }
+
 
     public UserHasToPayResponse hasToPay(UUID id) {
         User user = findById(id);

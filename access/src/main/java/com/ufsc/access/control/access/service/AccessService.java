@@ -105,7 +105,7 @@ public class AccessService {
 
         HttpResponse<String> creditResponse = NetUtils.createGetRequest(creditIdEndpoint);
         if (creditResponse.statusCode() != 200) {
-            throw new RuntimeException(String.format("Could not find a credit with UUID %s.", creditId));
+            throw new EntityNotFoundException(String.format("Could not find a credit with UUID %s.", creditId));
         }
 
         Map<String, Object> creditResponseBody = NetUtils.deserializeJson(creditResponse.body());
@@ -128,7 +128,7 @@ public class AccessService {
         HttpResponse<String> response = NetUtils.createGetRequest(parkingIdEndpoint);
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException(String.format("Could not find a parking with UUID %s.", parkingId));
+            throw new EntityNotFoundException(String.format("Could not find a parking with UUID %s.", parkingId));
         }
 
         Map<String, Object> responseBody = NetUtils.deserializeJson(response.body());
@@ -140,7 +140,7 @@ public class AccessService {
         HttpResponse<String> response = NetUtils.createGetRequest(userHasToPayEndpoint);
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException(String.format("Could not find a user with UUID %s.", userId));
+            throw new EntityNotFoundException(String.format("Could not find a user with UUID %s.", userId));
         }
 
         Map<String, Object> responseBody = NetUtils.deserializeJson(response.body());
